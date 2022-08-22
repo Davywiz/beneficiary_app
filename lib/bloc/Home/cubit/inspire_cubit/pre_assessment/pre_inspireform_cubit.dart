@@ -224,7 +224,7 @@ class PreInspireFormCubit extends Cubit<PreInspireFormState> {
     ),
     FormModel(
       question:
-          'If you weren\'t successful, what do you think could be the reasons for not being unsuccessful in the interview(s)?',
+          'If you weren\'t successful, what do you think could be the reasons for being unsuccessful in the interview(s)?',
       answerType: AnswerType.optionAndOthers,
       options: [
         'Incomplete or poor CV',
