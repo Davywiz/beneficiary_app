@@ -24,7 +24,7 @@ dependencies:
   sizer: ^2.0.15
   equatable: ^2.0.3
   another_flushbar: ^1.10.29
-  responsive_framework: 0.1.9
+  responsive_framework: 0.2.0
   dio: ^4.0.6
   pretty_dio_logger: ^1.1.1
   dartz: ^0.10.1
