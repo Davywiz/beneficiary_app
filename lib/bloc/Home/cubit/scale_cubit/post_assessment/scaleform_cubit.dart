@@ -37,8 +37,8 @@ class ScaleFormCubit extends Cubit<ScaleFormState> {
         );
       });
       emit(state.copyWith(answerList: oldData));
-      final newData = jsonEncode(state.answerList);
-      print(newData);
+      //final newData = jsonEncode(state.answerList);
+      //print(newData);
     } else {
       final oldData = {...state.answerList};
       allAnswer.addEntries(sentAnswer.entries);
@@ -53,9 +53,9 @@ class ScaleFormCubit extends Cubit<ScaleFormState> {
 
       emit(state.copyWith(answerList: oldData));
 
-      final newData = jsonEncode(state.answerList);
+      //final newData = jsonEncode(state.answerList);
 
-      print(newData);
+      //print(newData);
     }
   }
 
