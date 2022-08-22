@@ -43,8 +43,8 @@ class PreInspireFormCubit extends Cubit<PreInspireFormState> {
         );
       });
       emit(state.copyWith(answerList: oldData));
-      final newData = jsonEncode(state.answerList);
-      print(newData);
+      //final newData = jsonEncode(state.answerList);
+      //print(newData);
     } else {
       final oldData = {...state.answerList};
       allAnswer.addEntries(sentAnswer.entries);
@@ -59,9 +59,9 @@ class PreInspireFormCubit extends Cubit<PreInspireFormState> {
 
       emit(state.copyWith(answerList: oldData));
 
-      final newData = jsonEncode(state.answerList);
+      //final newData = jsonEncode(state.answerList);
 
-      print(newData);
+      //print(newData);
     }
   }
 
