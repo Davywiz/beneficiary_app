@@ -312,7 +312,7 @@ class PreScaleFormCubit extends Cubit<PreScaleFormState> {
       options: ['Male', 'Female'],
     ),
     FormModel(
-      question: 'Less than 20 hours per week for 6 months',
+      question: 'Less than 20 hours per week for less than 6 months',
       answerType: AnswerType.optionsWithTypedAnswer,
       options: ['Male', 'Female'],
     ),
