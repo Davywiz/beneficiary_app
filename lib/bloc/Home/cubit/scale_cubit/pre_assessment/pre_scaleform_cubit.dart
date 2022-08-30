@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:beneficiary_app/app/constants.dart';
 import 'package:beneficiary_app/model/model.dart';
 import 'package:bloc/bloc.dart';
@@ -279,6 +277,12 @@ List<FormModel> pageFourQuestion = [
     answerType: AnswerType.typedAnswer,
   ),
   FormModel(
+    id: '21',
+    question: 'Employment Status',
+    answerType: AnswerType.optionsType,
+    options: ['Paid Wage Job', 'Self Employed'],
+  ),
+  FormModel(
     id: '20',
     question:
         'Did you carry out any work that allowed you to gain an income before you participated in the training',
@@ -287,12 +291,6 @@ List<FormModel> pageFourQuestion = [
       'Yes(I carried out some type of income-generating activity)',
       'No(I did not conduct any income-generating activity)'
     ],
-  ),
-  FormModel(
-    id: '21',
-    question: 'Employment Status',
-    answerType: AnswerType.optionsType,
-    options: ['Paid Wage Job', 'Self Employed'],
   ),
 ];
 
@@ -684,7 +682,6 @@ List<SliderFormObject> get getFormsData => [
         null,
         '10',
       ),
-      SliderFormObject(pageThreeQuestion, null, '14'),
       SliderFormObject(pageFourQuestion),
       SliderFormObject(
           pageFiveQuestion,
@@ -695,6 +692,7 @@ List<SliderFormObject> get getFormsData => [
           ],
           '21',
           'Self Employed'),
+      SliderFormObject(pageThreeQuestion, null, '14'),
       SliderFormObject(
           pageSixQuestion,
           [

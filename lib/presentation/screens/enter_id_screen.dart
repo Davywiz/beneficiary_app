@@ -36,7 +36,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(const SnackBar(
-          content: Text('You have already taken the Assessment tests'),
+          content: Text('You have already taken the Assessment Tests'),
         ));
       return;
     }

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:beneficiary_app/bloc/Auth/cubit/auth_cubit.dart';
 import 'package:beneficiary_app/bloc/Home/cubit/inspire_cubit/post_assessment/inspireform_cubit.dart';
 import 'package:beneficiary_app/bloc/Home/cubit/inspire_cubit/pre_assessment/pre_inspireform_cubit.dart';
@@ -15,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -63,9 +62,9 @@ class _ShowAppState extends State<ShowApp> {
     super.initState();
     //To remove the splashScreen
 
-    // Future.delayed(const Duration(seconds: 3), () {
-    //   FlutterNativeSplash.remove();
-    // });
+    Future.delayed(const Duration(seconds: 3), () {
+      FlutterNativeSplash.remove();
+    });
   }
 
   @override

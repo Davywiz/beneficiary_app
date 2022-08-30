@@ -27,7 +27,7 @@ extension HexColor on Color {
     if (hexColorString.length == 6) {
       hexColorString = 'FF' + hexColorString; // 8 char with opacity 100%
     }
-    print(int.parse(hexColorString, radix: 16));
+    //print(int.parse(hexColorString, radix: 16));
     return Color(int.parse(hexColorString, radix: 16));
   }
 }

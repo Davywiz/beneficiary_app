@@ -17,15 +17,15 @@ void pushUserFormData(
   });
   final sortedMap =
       SplayTreeMap<int, dynamic>.from(newMap, (k1, k2) => k1.compareTo(k2));
-  print(sortedMap);
-  // final userData = UserSingleton();
-  // final String userId = userData.userId;
-  // final String token = userData.userToken;
-  // final formData = SendFormData(
-  //   token: token,
-  //   userId: userId,
-  //   assessmentForm: package,
-  //   userFormData: sortedMap,
-  // );
-  // context.read<AuthCubit>().sendUserFormData(formData);
+  //print(sortedMap);
+  final userData = UserSingleton();
+  final String userId = userData.userId;
+  final String token = userData.userToken;
+  final formData = SendFormData(
+    token: token,
+    userId: userId,
+    assessmentForm: package,
+    userFormData: sortedMap,
+  );
+  context.read<AuthCubit>().sendUserFormData(formData);
 }

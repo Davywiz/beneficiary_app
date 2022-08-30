@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:beneficiary_app/app/constants.dart';
 import 'package:beneficiary_app/model/model.dart';
 import 'package:bloc/bloc.dart';
@@ -300,6 +298,12 @@ List<FormModel> pageFourQuestion = [
         'No',
       ]),
   FormModel(
+    id: '21',
+    question: 'Employment Status',
+    answerType: AnswerType.optionsType,
+    options: ['Paid Wage Job', 'Self Employed'],
+  ),
+  FormModel(
       id: '20',
       question:
           'Did you carry out any work that allowed you to gain an income after you participated in the E-Cycle?',
@@ -308,12 +312,6 @@ List<FormModel> pageFourQuestion = [
         'Yes (I carried out some type of income-generating activity)',
         'No (I did not conduct any income-generating activity:)',
       ]),
-  FormModel(
-    id: '21',
-    question: 'Employment Status',
-    answerType: AnswerType.optionsType,
-    options: ['Paid Wage Job', 'Self Employed'],
-  ),
 ];
 
 List<FormModel> pageFiveQuestion = [
