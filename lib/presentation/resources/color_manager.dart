@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ColorManager {
+  //static Color primary = HexColor.fromHex("#EB0404");
+  //static Color background = HexColor.fromHex("#FAEBEB");
+
   static Color primary = HexColor.fromHex("#6B41B8");
   static Color background = HexColor.fromHex("#EFEBF9");
   static Color darkGrey = HexColor.fromHex("#525252");

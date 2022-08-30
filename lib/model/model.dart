@@ -3,7 +3,9 @@ import 'dart:convert';
 class SliderFormObject {
   List<String>? title;
   List<FormModel> form;
-  SliderFormObject(this.form, [this.title]);
+  String? skipId;
+  String? useSkipId;
+  SliderFormObject(this.form, [this.title, this.skipId, this.useSkipId]);
 }
 
 enum AnswerType {
@@ -14,13 +16,17 @@ enum AnswerType {
 }
 
 class FormModel {
+  final String id;
   String question;
   AnswerType answerType;
   List<String>? options;
+  String? useSkipId;
   FormModel({
+    required this.id,
     required this.question,
     required this.answerType,
     this.options,
+    this.useSkipId,
   });
 }
 

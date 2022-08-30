@@ -2,7 +2,7 @@
     package="com.giz.beneficiary">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="beneficiaryapp"
+        android:label="Beneficiary App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

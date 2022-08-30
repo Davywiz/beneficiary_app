@@ -21,6 +21,7 @@ class ScaleFormScreen extends StatefulWidget {
 }
 
 class _ScaleFormScreenState extends State<ScaleFormScreen> {
+  String? showSkipLogic;
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;
@@ -92,22 +93,38 @@ class _ScaleFormScreenState extends State<ScaleFormScreen> {
                 SizedBox(
                   height: AppSize.s4.h,
                 ),
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: formCubit.getFormsData.length,
-                    onPageChanged: (index) {
-                      formCubit.onPageChanged(index);
-                    },
-                    itemBuilder: (ctx, index) {
-                      return FormContainer(
-                        sliderFormObject: formCubit.getFormsData[index].form,
-                        title: formCubit.getFormsData[index].title,
-                      );
-                    },
-                  ),
-                ),
+                BlocBuilder<ScaleFormCubit, ScaleFormState>(
+                    buildWhen: ((previous, current) {
+                  return (previous.newFormsData != current.newFormsData);
+                }), builder: (context, state) {
+                  return Expanded(
+                    child: PageView.builder(
+                      controller: _pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.newFormsData.length,
+                      onPageChanged: (index) {
+                        formCubit.onPageChanged(index);
+                      },
+                      itemBuilder: (ctx, index) {
+                        final formsData = [...state.newFormsData];
+                        final slideData = formsData[index];
+                        showSkipLogic = getAnswerForSkipId(
+                            formsData[index].skipId ?? '', state.answerList);
+                        if (slideData.skipId != null &&
+                            showSkipLogic == slideData.useSkipId) {
+                          formsData
+                              .removeWhere((e) => e.useSkipId == showSkipLogic);
+                          formCubit.sendNewFormData(formsData);
+                        }
+                        return FormContainer(
+                          sliderFormObject: formsData[index].form,
+                          title: formsData[index].title,
+                          skipId: formsData[index].skipId,
+                        );
+                      },
+                    ),
+                  );
+                }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -218,10 +235,14 @@ class _ScaleFormScreenState extends State<ScaleFormScreen> {
 
 class FormContainer extends StatefulWidget {
   final List<FormModel> sliderFormObject;
+  final String? skipId;
   final List<String>? title;
 
   const FormContainer(
-      {required this.sliderFormObject, required this.title, Key? key})
+      {required this.sliderFormObject,
+      required this.title,
+      this.skipId,
+      Key? key})
       : super(key: key);
 
   @override
@@ -229,32 +250,41 @@ class FormContainer extends StatefulWidget {
 }
 
 class _FormContainerState extends State<FormContainer> {
+  String? showSkipLogic;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.title != null)
-          Padding(
-            padding: EdgeInsets.only(bottom: AppPadding.p2.h),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(widget.title!.length, (index) {
-                  return Text(
-                    widget.title![index],
-                    style: index == 0
-                        ? Theme.of(context).textTheme.headline4
-                        : Theme.of(context).textTheme.headline3,
-                  );
-                })),
-          ),
-        if (widget.title != null) const Divider(),
-        Expanded(
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      if (widget.title != null)
+        Padding(
+          padding: EdgeInsets.only(bottom: AppPadding.p2.h),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(widget.title!.length, (index) {
+                return Text(
+                  widget.title![index],
+                  style: index == 0
+                      ? Theme.of(context).textTheme.headline4
+                      : Theme.of(context).textTheme.headline3,
+                );
+              })),
+        ),
+      if (widget.title != null) const Divider(),
+      BlocBuilder<ScaleFormCubit, ScaleFormState>(
+          buildWhen: ((previous, current) {
+        return (previous.answerList != current.answerList);
+      }), builder: (context, state) {
+        showSkipLogic =
+            getAnswerForSkipId(widget.skipId ?? '', state.answerList);
+        return Expanded(
           child: ListView.builder(
             controller: ScrollController(),
             itemCount: widget.sliderFormObject.length,
             itemBuilder: (ctx, index) {
+              if (widget.skipId != null &&
+                  showSkipLogic == widget.sliderFormObject[index].useSkipId) {
+                return Container();
+              }
               return Padding(
                 padding: EdgeInsets.only(bottom: AppPadding.p2.h),
                 child: Card(
@@ -264,6 +294,7 @@ class _FormContainerState extends State<FormContainer> {
                   child: Padding(
                     padding: EdgeInsets.all(AppPadding.p2.h),
                     child: FormBuildWidget(
+                      id: widget.sliderFormObject[index].id,
                       question: widget.sliderFormObject[index].question,
                       answerType: widget.sliderFormObject[index].answerType,
                       options: widget.sliderFormObject[index].options,
@@ -273,13 +304,24 @@ class _FormContainerState extends State<FormContainer> {
               );
             },
           ),
-        ),
-      ],
-    );
+        );
+      })
+    ]);
   }
 }
 
+String getAnswerForSkipId(String answerId, Map answerList) {
+  final oldData = {...answerList};
+  if (oldData.containsKey(answerId)) {
+    final data = oldData[answerId];
+    return data!.answer.values.toList().first;
+  }
+
+  return '';
+}
+
 class FormBuildWidget extends StatefulWidget {
+  final String id;
   final String question;
   final AnswerType answerType;
   final List<String>? options;
@@ -287,6 +329,7 @@ class FormBuildWidget extends StatefulWidget {
   const FormBuildWidget({
     Key? key,
     required this.question,
+    required this.id,
     required this.answerType,
     required this.options,
   }) : super(key: key);
@@ -306,8 +349,7 @@ class _FormBuildWidgetState extends State<FormBuildWidget>
   @override
   Widget build(BuildContext context) {
     final String question = widget.question;
-    final String newId =
-        '${question[1]}${question.length}${question.substring(question.length - 2)}';
+    final String newId = widget.id;
     final sendValue = context.read<ScaleFormCubit>();
     super.build(context);
     return Column(

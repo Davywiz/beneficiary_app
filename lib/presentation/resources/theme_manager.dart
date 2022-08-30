@@ -9,7 +9,7 @@ ThemeData getApplicationTheme(BuildContext context) {
   return ThemeData(
     //main colors of the app
     scaffoldBackgroundColor: ColorManager.background,
-    accentColor:  ColorManager.primary,
+    accentColor: ColorManager.primary,
     primaryColor: ColorManager.primary,
     primaryColorLight: ColorManager.primaryOpacity70,
     primaryColorDark: ColorManager.dakPrimary,

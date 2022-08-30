@@ -36,7 +36,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(const SnackBar(
-          content: Text('You have already taken the assessment tests'),
+          content: Text('You have already taken the Assessment tests'),
         ));
       return;
     }
@@ -156,7 +156,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
                   style: Theme.of(context).textTheme.headline1,
                   children: [
                     TextSpan(
-                      text: 'Employment in Nigeria (SEDIN) Programme ',
+                      text: 'Employment in Nigeria - SEDIN',
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ],

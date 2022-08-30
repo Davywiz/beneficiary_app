@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-const baseUrl = "https://giztest.uniben.edu/api/beneficiaries";
+const baseUrl = "https://sedinmonitoringportal.com/api/beneficiaries";
 
 enum FormStateStatus { initial, loading, success, failure }
 

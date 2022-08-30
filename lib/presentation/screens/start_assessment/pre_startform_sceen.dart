@@ -21,6 +21,7 @@ class PreStartFormScreen extends StatefulWidget {
 }
 
 class _PreStartFormScreenState extends State<PreStartFormScreen> {
+  String? showSkipLogic;
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;
@@ -92,22 +93,38 @@ class _PreStartFormScreenState extends State<PreStartFormScreen> {
                 SizedBox(
                   height: AppSize.s4.h,
                 ),
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: formCubit.getFormsData.length,
-                    onPageChanged: (index) {
-                      formCubit.onPageChanged(index);
-                    },
-                    itemBuilder: (ctx, index) {
-                      return FormContainer(
-                        sliderFormObject: formCubit.getFormsData[index].form,
-                        title: formCubit.getFormsData[index].title,
-                      );
-                    },
-                  ),
-                ),
+                BlocBuilder<PreStartFormCubit, PreStartFormState>(
+                    buildWhen: ((previous, current) {
+                  return (previous.newFormsData != current.newFormsData);
+                }), builder: (context, state) {
+                  return Expanded(
+                    child: PageView.builder(
+                      controller: _pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.newFormsData.length,
+                      onPageChanged: (index) {
+                        formCubit.onPageChanged(index);
+                      },
+                      itemBuilder: (ctx, index) {
+                        final formsData = [...state.newFormsData];
+                        final slideData = formsData[index];
+                        showSkipLogic = getAnswerForSkipId(
+                            formsData[index].skipId ?? '', state.answerList);
+                        if (slideData.skipId != null &&
+                            showSkipLogic == slideData.useSkipId) {
+                          formsData
+                              .removeWhere((e) => e.useSkipId == showSkipLogic);
+                          formCubit.sendNewFormData(formsData);
+                        }
+                        return FormContainer(
+                          sliderFormObject: formsData[index].form,
+                          title: formsData[index].title,
+                          skipId: formsData[index].skipId,
+                        );
+                      },
+                    ),
+                  );
+                }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -149,7 +166,7 @@ class _PreStartFormScreenState extends State<PreStartFormScreen> {
                 style: Theme.of(context).textTheme.headline2,
               ),
               content: Text(
-                'You have successfully filled your post assessment form!',
+                'You have successfully filled your pre assessment form!',
                 style: Theme.of(context).textTheme.headline3,
               ),
               actions: [
@@ -185,7 +202,7 @@ class _PreStartFormScreenState extends State<PreStartFormScreen> {
                 style: Theme.of(context).textTheme.headline2,
               ),
               content: Text(
-                'You have successfully filled your post assessment form!',
+                'You have successfully filled your pre assessment form!',
                 style: Theme.of(context).textTheme.headline3,
               ),
               actions: [
@@ -216,10 +233,14 @@ class _PreStartFormScreenState extends State<PreStartFormScreen> {
 
 class FormContainer extends StatefulWidget {
   final List<FormModel> sliderFormObject;
+  final String? skipId;
   final List<String>? title;
 
   const FormContainer(
-      {required this.sliderFormObject, required this.title, Key? key})
+      {required this.sliderFormObject,
+      required this.title,
+      this.skipId,
+      Key? key})
       : super(key: key);
 
   @override
@@ -227,6 +248,7 @@ class FormContainer extends StatefulWidget {
 }
 
 class _FormContainerState extends State<FormContainer> {
+  String? showSkipLogic;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -248,37 +270,60 @@ class _FormContainerState extends State<FormContainer> {
                 })),
           ),
         if (widget.title != null) const Divider(),
-        Expanded(
-          child: ListView.builder(
-            controller: ScrollController(),
-            itemCount: widget.sliderFormObject.length,
-            itemBuilder: (ctx, index) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: AppPadding.p2.h),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.all(AppPadding.p2.h),
-                    child: FormBuildWidget(
-                      question: widget.sliderFormObject[index].question,
-                      answerType: widget.sliderFormObject[index].answerType,
-                      options: widget.sliderFormObject[index].options,
+        BlocBuilder<PreStartFormCubit, PreStartFormState>(
+            buildWhen: ((previous, current) {
+          return (previous.answerList != current.answerList);
+        }), builder: (context, state) {
+          showSkipLogic =
+              getAnswerForSkipId(widget.skipId ?? '', state.answerList);
+          return Expanded(
+            child: ListView.builder(
+              controller: ScrollController(),
+              itemCount: widget.sliderFormObject.length,
+              itemBuilder: (ctx, index) {
+                if (widget.skipId != null &&
+                    showSkipLogic == widget.sliderFormObject[index].useSkipId) {
+                  return Container();
+                }
+                return Padding(
+                  padding: EdgeInsets.only(bottom: AppPadding.p2.h),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    elevation: 2,
+                    child: Padding(
+                      padding: EdgeInsets.all(AppPadding.p2.h),
+                      child: FormBuildWidget(
+                        id: widget.sliderFormObject[index].id,
+                        question: widget.sliderFormObject[index].question,
+                        answerType: widget.sliderFormObject[index].answerType,
+                        options: widget.sliderFormObject[index].options,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ),
+                );
+              },
+            ),
+          );
+        })
       ],
     );
   }
 }
 
+String getAnswerForSkipId(String answerId, Map answerList) {
+  final oldData = {...answerList};
+  if (oldData.containsKey(answerId)) {
+    final data = oldData[answerId];
+    return data!.answer.values.toList().first;
+  }
+
+  return '';
+}
+
 class FormBuildWidget extends StatefulWidget {
   final String question;
+  final String id;
   final AnswerType answerType;
   final List<String>? options;
 
@@ -286,6 +331,7 @@ class FormBuildWidget extends StatefulWidget {
     Key? key,
     required this.question,
     required this.answerType,
+    required this.id,
     required this.options,
   }) : super(key: key);
 
@@ -304,8 +350,7 @@ class _FormBuildWidgetState extends State<FormBuildWidget>
   @override
   Widget build(BuildContext context) {
     final String question = widget.question;
-    final String newId =
-        '${question[1]}${question.length}${question.substring(question.length - 2)}';
+    final String newId = widget.id;
     final sendValue = context.read<PreStartFormCubit>();
     super.build(context);
     return Column(
@@ -317,9 +362,11 @@ class _FormBuildWidgetState extends State<FormBuildWidget>
         ),
         if (widget.answerType == AnswerType.optionsType)
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: List.generate(widget.options!.length, (index) {
               return RadioListTile<int>(
+                // contentPadding: EdgeInsets.zero,
                 title: Text(
                   widget.options![index],
                   style: Theme.of(context).textTheme.bodyText1,

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:beneficiary_app/bloc/Auth/cubit/auth_cubit.dart';
 import 'package:beneficiary_app/data/requests/requests.dart';
 import 'package:beneficiary_app/model/model.dart';
@@ -11,17 +13,19 @@ void pushUserFormData(
     required Map<String, AnswerList> data}) {
   final newMap = {};
   data.forEach((key, value) {
-    newMap.addAll({key: value.toMap()});
+    newMap.addAll({int.parse(key): value.toMap()});
   });
-  //final String userId = context.read<AuthCubit>().state.userID()!;
-  final userData = UserSingleton();
-  final String userId = userData.userId;
-  final String token = userData.userToken;
-  final formData = SendFormData(
-    token: token,
-    userId: userId,
-    assessmentForm: package,
-    userFormData: newMap,
-  );
-  context.read<AuthCubit>().sendUserFormData(formData);
+  final sortedMap =
+      SplayTreeMap<int, dynamic>.from(newMap, (k1, k2) => k1.compareTo(k2));
+  print(sortedMap);
+  // final userData = UserSingleton();
+  // final String userId = userData.userId;
+  // final String token = userData.userToken;
+  // final formData = SendFormData(
+  //   token: token,
+  //   userId: userId,
+  //   assessmentForm: package,
+  //   userFormData: sortedMap,
+  // );
+  // context.read<AuthCubit>().sendUserFormData(formData);
 }

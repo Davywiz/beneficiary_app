@@ -45,27 +45,52 @@ class MyApp extends StatelessWidget {
           create: (_) => PreScaleFormCubit(),
         ),
       ],
-      child: Sizer(builder: (BuildContext context, Orientation orientation,
-          DeviceType deviceType) {
-        return MaterialApp(
-          builder: (context, widget) => ResponsiveWrapper.builder(
-            ClampingScrollWrapper.builder(context, widget!),
-            maxWidth: 1200,
-            minWidth: 450,
-            defaultScale: true,
-            breakpoints: const [
-              ResponsiveBreakpoint.resize(480, name: MOBILE),
-              ResponsiveBreakpoint.autoScale(800, name: TABLET),
-              ResponsiveBreakpoint.resize(1000, name: TABLET),
-              ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
-            ],
-          ),
-          title: 'Beneficiary App',
-          debugShowCheckedModeBanner: false,
-          theme: getApplicationTheme(context),
-          onGenerateRoute: RouteGenerator.getRoute,
-        );
-      }),
+      child: const ShowApp(),
     );
+  }
+}
+
+class ShowApp extends StatefulWidget {
+  const ShowApp({Key? key}) : super(key: key);
+
+  @override
+  State<ShowApp> createState() => _ShowAppState();
+}
+
+class _ShowAppState extends State<ShowApp> {
+  @override
+  void initState() {
+    super.initState();
+    //To remove the splashScreen
+
+    // Future.delayed(const Duration(seconds: 3), () {
+    //   FlutterNativeSplash.remove();
+    // });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Sizer(builder:
+        (BuildContext context, Orientation orientation, DeviceType deviceType) {
+      return MaterialApp(
+        builder: (context, widget) => ResponsiveWrapper.builder(
+          ClampingScrollWrapper.builder(context, widget!),
+          maxWidth: 1200,
+          minWidth: 450,
+          defaultScale: true,
+          breakpoints: const [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1000, name: TABLET),
+            ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
+          ],
+        ),
+        //initialRoute: Routes.postStartFormRoute,
+        title: 'SEDIN Beneficiary',
+        debugShowCheckedModeBanner: false,
+        theme: getApplicationTheme(context),
+        onGenerateRoute: RouteGenerator.getRoute,
+      );
+    });
   }
 }
