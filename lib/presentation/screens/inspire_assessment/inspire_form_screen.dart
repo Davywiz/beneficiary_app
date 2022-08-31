@@ -182,7 +182,7 @@ class _InspireFormScreenState extends State<InspireFormScreen> {
                       final data =
                           context.read<InspireFormCubit>().state.answerList;
                       pushUserFormData(
-                          context: context, package: FormType.pre, data: data);
+                          context: context, package: FormType.post, data: data);
                       Navigator.of(context).pop();
                     },
                     child: const Text(
@@ -219,7 +219,7 @@ class _InspireFormScreenState extends State<InspireFormScreen> {
                     final data =
                         context.read<InspireFormCubit>().state.answerList;
                     pushUserFormData(
-                        context: context, package: FormType.pre, data: data);
+                        context: context, package: FormType.post, data: data);
                     Navigator.of(context).pop();
                   },
                   title: 'Submit',

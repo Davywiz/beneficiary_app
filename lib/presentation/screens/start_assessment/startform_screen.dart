@@ -183,7 +183,7 @@ class _StartFormScreenState extends State<StartFormScreen> {
                       final data =
                           context.read<StartFormCubit>().state.answerList;
                       pushUserFormData(
-                          context: context, package: FormType.pre, data: data);
+                          context: context, package: FormType.post, data: data);
                       Navigator.of(context).pop();
                     },
                     child: const Text(
@@ -220,7 +220,7 @@ class _StartFormScreenState extends State<StartFormScreen> {
                     final data =
                         context.read<StartFormCubit>().state.answerList;
                     pushUserFormData(
-                        context: context, package: FormType.pre, data: data);
+                        context: context, package: FormType.post, data: data);
                     Navigator.of(context).pop();
                   },
                   title: 'Submit',
