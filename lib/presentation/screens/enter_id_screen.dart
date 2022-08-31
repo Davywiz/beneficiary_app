@@ -3,7 +3,6 @@ import 'package:beneficiary_app/data/responses/responses.dart';
 import 'package:beneficiary_app/presentation/resources/route_manager.dart';
 import 'package:beneficiary_app/presentation/resources/values_manager.dart';
 import 'package:beneficiary_app/presentation/widgets/flat_button.dart';
-import 'package:beneficiary_app/presentation/widgets/get_responsive_value.dart';
 import 'package:beneficiary_app/presentation/widgets/loading/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +35,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(const SnackBar(
-          content: Text('You have already taken the Assessment Tests'),
+          content: Text('You have already taken the Assessments'),
         ));
       return;
     }
@@ -45,7 +44,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(const SnackBar(
-            content: Text('Not yet time to access your Post Assessment Test'),
+            content: Text('Not yet time to access Post Assessment'),
           ));
         return;
       }
@@ -60,7 +59,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(const SnackBar(
-          content: Text('You have already taken the assessment tests'),
+          content: Text('You have already taken the Assessments'),
         ));
       return;
     }
@@ -69,7 +68,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(const SnackBar(
-            content: Text('Not yet time to access your Post Assessment Test'),
+            content: Text('Not yet time to access Post Assessment'),
           ));
         return;
       }
@@ -84,7 +83,7 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(const SnackBar(
-          content: Text('You have already taken the assessment tests'),
+          content: Text('You have already taken the Assessments'),
         ));
       return;
     }
@@ -93,12 +92,11 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(const SnackBar(
-            content: Text('Not yet time to access your Post Assessment Test'),
+            content: Text('Not yet time to access Post Assessment'),
           ));
         return;
       }
       Navigator.of(context).pushNamed(Routes.postScaleFormRoute);
-      //Navigator.of(context).pushNamed(Routes.preScaleFormRoute);
     } else {
       Navigator.of(context).pushNamed(Routes.preScaleFormRoute);
     }

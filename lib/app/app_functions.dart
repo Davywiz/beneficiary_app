@@ -11,13 +11,19 @@ void pushUserFormData(
     {required BuildContext context,
     required FormType package,
     required Map<String, AnswerList> data}) {
-  final newMap = {};
+  final Map<int, dynamic> newMap = {};
+  final sentMap = {};
   data.forEach((key, value) {
     newMap.addAll({int.parse(key): value.toMap()});
   });
+
   final sortedMap =
       SplayTreeMap<int, dynamic>.from(newMap, (k1, k2) => k1.compareTo(k2));
-  //print(sortedMap);
+
+  sortedMap.forEach((key, value) {
+    sentMap.addAll({'$key': value});
+  });
+
   final userData = UserSingleton();
   final String userId = userData.userId;
   final String token = userData.userToken;
@@ -25,7 +31,7 @@ void pushUserFormData(
     token: token,
     userId: userId,
     assessmentForm: package,
-    userFormData: sortedMap,
+    userFormData: sentMap,
   );
   context.read<AuthCubit>().sendUserFormData(formData);
 }
