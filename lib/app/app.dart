@@ -84,7 +84,7 @@ class _ShowAppState extends State<ShowApp> {
             ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
           ],
         ),
-        //initialRoute: Routes.postStartFormRoute,
+        //initialRoute: Routes.postScaleFormRoute,
         title: 'SEDIN Beneficiary',
         debugShowCheckedModeBanner: false,
         theme: getApplicationTheme(context),

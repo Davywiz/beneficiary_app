@@ -3,6 +3,7 @@ import 'package:beneficiary_app/bloc/Auth/cubit/auth_cubit.dart';
 import 'package:beneficiary_app/bloc/Home/cubit/start_cubit/post_assessment/startform_cubit.dart';
 import 'package:beneficiary_app/model/model.dart';
 import 'package:beneficiary_app/presentation/resources/values_manager.dart';
+import 'package:beneficiary_app/presentation/resources/app_strings.dart';
 import 'package:beneficiary_app/presentation/widgets/flat_button.dart';
 import 'package:beneficiary_app/presentation/widgets/responsive.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,14 @@ class StartFormScreen extends StatefulWidget {
 
 class _StartFormScreenState extends State<StartFormScreen> {
   String? showSkipLogic;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showCustomDialog(context, AppStrings.startTitle, AppStrings.startText);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;

@@ -10,6 +10,7 @@ import 'package:beneficiary_app/app/app_functions.dart';
 import 'package:beneficiary_app/data/requests/requests.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:beneficiary_app/presentation/resources/app_strings.dart';
 import 'package:beneficiary_app/presentation/widgets/loading/loading_screen.dart';
 import 'package:beneficiary_app/bloc/Auth/cubit/auth_cubit.dart';
 
@@ -22,6 +23,15 @@ class PreInspireFormScreen extends StatefulWidget {
 
 class _PreInspireFormScreenState extends State<PreInspireFormScreen> {
   String? showSkipLogic;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showCustomDialog(
+          context, AppStrings.inspireTitle, AppStrings.inspireText);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;

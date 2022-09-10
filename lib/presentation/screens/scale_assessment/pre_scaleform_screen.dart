@@ -6,6 +6,7 @@ import 'package:beneficiary_app/presentation/widgets/flat_button.dart';
 import 'package:beneficiary_app/presentation/widgets/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:beneficiary_app/presentation/resources/app_strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:beneficiary_app/presentation/widgets/loading/loading_screen.dart';
 import 'package:beneficiary_app/bloc/Auth/cubit/auth_cubit.dart';
@@ -22,6 +23,14 @@ class PreScaleFormScreen extends StatefulWidget {
 
 class _PreScaleFormScreenState extends State<PreScaleFormScreen> {
   String? showSkipLogic;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showCustomDialog(context, AppStrings.scaleTitle, AppStrings.scaleText);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;

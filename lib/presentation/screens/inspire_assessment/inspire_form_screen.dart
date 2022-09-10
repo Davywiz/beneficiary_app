@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:beneficiary_app/data/requests/requests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:beneficiary_app/presentation/resources/app_strings.dart';
 import 'package:sizer/sizer.dart';
 import 'package:beneficiary_app/presentation/widgets/loading/loading_screen.dart';
 import 'package:beneficiary_app/bloc/Auth/cubit/auth_cubit.dart';
@@ -22,6 +23,15 @@ class InspireFormScreen extends StatefulWidget {
 
 class _InspireFormScreenState extends State<InspireFormScreen> {
   String? showSkipLogic;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showCustomDialog(
+          context, AppStrings.inspireTitle, AppStrings.inspireText);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;

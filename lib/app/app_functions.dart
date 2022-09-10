@@ -6,6 +6,9 @@ import 'package:beneficiary_app/model/model.dart';
 import 'package:beneficiary_app/app/user_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:beneficiary_app/presentation/widgets/flat_button.dart';
+import 'package:beneficiary_app/presentation/resources/values_manager.dart';
+import 'package:sizer/sizer.dart';
 
 void pushUserFormData(
     {required BuildContext context,
@@ -34,4 +37,48 @@ void pushUserFormData(
     userFormData: sentMap,
   );
   context.read<AuthCubit>().sendUserFormData(formData);
+}
+
+void showCustomDialog(BuildContext context, String title, String text) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0)), //this right here
+          child: Container(
+            height: AppSize.s35.h,
+            width: AppSize.s80.w,
+            child: Padding(
+              padding: EdgeInsets.all(AppPadding.p2.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                  Flexible(
+                    child: ListView(
+                      children: [
+                        Text(
+                          text,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  MyFlatButton(
+                    func: () {
+                      Navigator.of(context).pop();
+                    },
+                    title: 'OK',
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      });
 }

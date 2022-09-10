@@ -10,6 +10,7 @@ import 'package:beneficiary_app/presentation/widgets/loading/loading_screen.dart
 import 'package:beneficiary_app/presentation/widgets/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:beneficiary_app/presentation/resources/app_strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
@@ -22,6 +23,15 @@ class PreStartFormScreen extends StatefulWidget {
 
 class _PreStartFormScreenState extends State<PreStartFormScreen> {
   String? showSkipLogic;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showCustomDialog(context, AppStrings.startTitle, AppStrings.startText);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).orientation;
