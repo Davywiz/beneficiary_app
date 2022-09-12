@@ -47,11 +47,13 @@ void showCustomDialog(BuildContext context, String title, String text) {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)), //this right here
           child: Container(
-            height: AppSize.s35.h,
+            //height: AppSize.s35.h,
+
             width: AppSize.s80.w,
             child: Padding(
               padding: EdgeInsets.all(AppPadding.p2.h),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
@@ -60,10 +62,15 @@ void showCustomDialog(BuildContext context, String title, String text) {
                   ),
                   Flexible(
                     child: ListView(
+                      shrinkWrap: true,
                       children: [
-                        Text(
-                          text,
-                          style: Theme.of(context).textTheme.bodyText1,
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: AppPadding.p2.h),
+                          child: Text(
+                            text,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         ),
                       ],
                     ),

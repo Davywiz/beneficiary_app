@@ -6,7 +6,7 @@ import 'package:beneficiary_app/bloc/Home/cubit/scale_cubit/pre_assessment/pre_s
 
 import 'package:beneficiary_app/bloc/Home/cubit/start_cubit/post_assessment/startform_cubit.dart';
 import 'package:beneficiary_app/bloc/Home/cubit/start_cubit/pre_assessment/pre_startform_cubit.dart';
-
+import 'package:beneficiary_app/bloc/Home/cubit/create_cubit/post_assessment/createform_cubit.dart';
 import 'package:beneficiary_app/presentation/resources/route_manager.dart';
 import 'package:beneficiary_app/presentation/resources/theme_manager.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +42,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => PreScaleFormCubit(),
+        ),
+        BlocProvider(
+          create: (_) => CreateFormCubit(),
         ),
       ],
       child: const ShowApp(),
@@ -84,7 +87,7 @@ class _ShowAppState extends State<ShowApp> {
             ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
           ],
         ),
-        //initialRoute: Routes.postScaleFormRoute,
+        //initialRoute: Routes.postCreateFormRoute,
         title: 'SEDIN Beneficiary',
         debugShowCheckedModeBanner: false,
         theme: getApplicationTheme(context),

@@ -5,6 +5,7 @@ import 'package:beneficiary_app/presentation/screens/scale_assessment/scale_form
 import 'package:beneficiary_app/presentation/screens/start_assessment/pre_startform_sceen.dart';
 import 'package:beneficiary_app/presentation/screens/start_assessment/startform_screen.dart';
 import 'package:beneficiary_app/presentation/screens/inspire_assessment/inspire_form_screen.dart';
+import 'package:beneficiary_app/presentation/screens/create_assessment/create_form_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -15,6 +16,7 @@ class Routes {
   static const String postInspireFormRoute = "/postInspire";
   static const String postScaleFormRoute = "/scale";
   static const String preScaleFormRoute = "/preScale";
+  static const String postCreateFormRoute = "/postCreate";
 }
 
 class RouteGenerator {
@@ -22,6 +24,8 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.enterId:
         return MaterialPageRoute(builder: (_) => EnterIdScreen());
+      case Routes.postCreateFormRoute:
+        return MaterialPageRoute(builder: (_) => CreateFormScreen());
       case Routes.postStartFormRoute:
         return MaterialPageRoute(builder: (_) => StartFormScreen());
       case Routes.postScaleFormRoute:

@@ -102,6 +102,30 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
     }
   }
 
+  void functionOfCreate(LoginResponse data) {
+    if (data.donePostAssessment == "true" && data.donePreAssessment == "true") {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(const SnackBar(
+          content: Text('You have already taken the Assessments'),
+        ));
+      return;
+    }
+    if (data.donePreAssessment == "true") {
+      if (data.postAssessment == "disabled") {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(const SnackBar(
+            content: Text('Not yet time to access Post Assessment'),
+          ));
+        return;
+      }
+      Navigator.of(context).pushNamed(Routes.postCreateFormRoute);
+    } else {
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +155,8 @@ class _EnterIdScreenState extends State<EnterIdScreen> {
               functionOfInspire(data);
             } else if (data.package == 'scale') {
               functionOfScale(data);
+            } else if (data.package == 'create') {
+              functionOfCreate(data);
             } else {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
